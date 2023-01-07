@@ -1,0 +1,49 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          Int     @id @default(autoincrement())
+  email       String  @unique
+  name        String
+  password    String
+  role        Role    @default(USER)
+}
+
+model MailSetting {
+  id          Int     @id @default(autoincrement())
+  timeframe   Int
+  minXSD      Float
+  active      Boolean @default(false)
+}
+
+model Indice {
+  id          Int      @id @default(autoincrement())
+  no          Int
+  date        DateTime @db.Date
+  close       Float
+}
+
+model AnalyzeIndice {
+  id          Int      @id @default(autoincrement())
+  pairID      Int
+  range       Int
+  pair        String
+  correlation Float
+  gap         Float
+  sd          Float
+  xsd         Float
+}
+
+enum Role {
+  USER
+  ADMIN
+}
